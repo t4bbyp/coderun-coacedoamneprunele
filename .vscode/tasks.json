@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "CMake: configure",
+            "command": "cmake",
+            "args": [
+                "-S", "${workspaceFolder}",
+                "-B", "${workspaceFolder}/build",
+                "-G", "Ninja",
+                "-DCMAKE_BUILD_TYPE=Debug"
+            ],
+            "problemMatcher": [],
+            "detail": "Generate the build system into ./build"
+        },
+        {
+            "type": "shell",
+            "label": "CMake: build",
+            "command": "cmake",
+            "args": [
+                "--build", "${workspaceFolder}/build"
+            ],
+            "dependsOn": "CMake: configure",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Build SDL3Training (main.cpp + rectangle.cpp, linked against SDL3)"
+        }
+    ]
+}
