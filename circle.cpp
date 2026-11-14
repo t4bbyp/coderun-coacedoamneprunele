@@ -96,18 +96,14 @@ void FillBorderedCircle(SDL_Renderer *renderer, Circle circle,
                         SDL_Color borderColor, int thickness) {
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-    //Interior
     FillCircle(renderer, circle);
 
-    //Border: DrawCircle traces a one-pixel outline, so stack `thickness` of
-    //them at successively smaller radii, growing the edge inward.
     Circle outline = circle;
     outline.color = borderColor;
 
     for (int i = 0; i < thickness; ++i) {
         outline.radius = circle.radius - static_cast<float>(i);
 
-        //Stop before the radius reaches zero and the outline degenerates.
         if (outline.radius <= 0.0f) {
             break;
         }

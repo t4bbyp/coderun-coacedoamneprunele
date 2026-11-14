@@ -42,16 +42,12 @@ void FillBorderedRectangle(SDL_Renderer *renderer, Rectangle rectangle,
     tmpRect.w = rectangle.width;
     tmpRect.h = rectangle.height;
 
-    //Set the blend mode explicitly rather than inheriting whatever the previous
-    //draw call left behind, so the result does not depend on draw order.
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     //Interior
     SDL_SetRenderDrawColor(renderer, rectangle.color.r, rectangle.color.g, rectangle.color.b, rectangle.color.a);
     SDL_RenderFillRect(renderer, &tmpRect);
 
-    //Border: SDL_RenderRect draws a one-pixel outline, so stack `thickness` of
-    //them, each inset one pixel further toward the centre.
     SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, borderColor.a);
     for (int i = 0; i < thickness; ++i) {
         const SDL_FRect borderRect{
@@ -61,7 +57,6 @@ void FillBorderedRectangle(SDL_Renderer *renderer, Rectangle rectangle,
             tmpRect.h - static_cast<float>(2 * i)
         };
 
-        //Stop before the inset collapses the rectangle inside out.
         if (borderRect.w <= 0.0f || borderRect.h <= 0.0f) {
             break;
         }
